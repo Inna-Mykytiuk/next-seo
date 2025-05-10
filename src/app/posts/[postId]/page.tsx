@@ -5,15 +5,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
-// interface BlogPostPageProps {
-//   params: Promise<{ postId: string }>
-// }
 
 export async function generateStaticParams() {
   const response = await fetch("https://dummyjson.com/posts");
   const { posts }: BlogPostsResponse = await response.json();
 
-  // Исправление: возвращаем массив объектов с postId в виде строки
   return posts.map(({ id }) => ({ postId: id.toString() }));
 }
 
@@ -26,8 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: {
   params: Promise<{ postId: string }>,
 }): Promise<Metadata> {
-  // Сначала дожидаемся params перед использованием его свойств
-  // const paramsData = await params;
+
   const { postId } = await props.params;
 
   const response = await fetch(`https://dummyjson.com/posts/${postId}`);
@@ -36,6 +31,7 @@ export async function generateMetadata(props: {
   return {
     title: post.title,
     description: post.body,
+    //If you have image for every post you can add openGraph image
     // openGraph: {
     //   images: [
     //     {
@@ -49,8 +45,7 @@ export async function generateMetadata(props: {
 export default async function BlogPostPage(props: {
   params: Promise<{ postId: string }>,
 }) {
-  // Сначала дожидаемся params перед использованием его свойств
-  // const paramsData = await params;
+
   const { postId } = await props.params;
 
   const response = await fetch(`https://dummyjson.com/posts/${postId}`);

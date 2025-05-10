@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   robots: {
     index: false,
+    //allow to follow links from this page
     follow: true,
   },
 };
